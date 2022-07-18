@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import ru.yandex.practicum.filmorate.controller.UserController;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -19,20 +20,20 @@ public class UserControllerTest {
     void validateLoginPostTest() {
         UserController userController = new UserController(new UserService(new InMemoryUserStorage()));
         User user = new User(1, "gd@mail.ru", "ygd cyu", "gdcfgds", LocalDate.of(1895, 12, 28));
-        Assertions.assertThrows(ValidationException.class, () -> userController.postUser(user));
+        Assertions.assertThrows(NotFoundException.class, () -> userController.postUser(user));
     }
 
     @Test
     void validateIdTest() {
         UserController userController = new UserController(new UserService(new InMemoryUserStorage()));
         User user = new User(1, "gd@mail.ru", "ygdcyu", "gdcfgds", LocalDate.of(1895, 12, 28));
-        Assertions.assertThrows(ValidationException.class, () -> userController.putUser(user));
+        Assertions.assertThrows(NotFoundException.class, () -> userController.putUser(user));
     }
 
     @Test
     void validateLoginPutTest() {
         UserController userController = new UserController(new UserService(new InMemoryUserStorage()));
         User user = new User(1, "gd@mail.ru", "ygd cyu", "gdcfgds", LocalDate.of(1895, 12, 28));
-        Assertions.assertThrows(ValidationException.class, () -> userController.putUser(user));
+        Assertions.assertThrows(NotFoundException.class, () -> userController.putUser(user));
     }
 }
