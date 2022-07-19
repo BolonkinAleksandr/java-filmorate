@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -7,12 +8,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-/*@SuperBuilder*/
 public class Film extends Model {
     @NotBlank(message = "film's name can't be empty")
     private String name;
@@ -21,6 +23,8 @@ public class Film extends Model {
     private LocalDate releaseDate;
     @Min(0)
     private int duration;
+    @JsonIgnore
+    Set<Integer> userIds = new HashSet<>();
 
     public Film(int id, String name, String description, LocalDate releaseDate, int duration) {
         super(id);
