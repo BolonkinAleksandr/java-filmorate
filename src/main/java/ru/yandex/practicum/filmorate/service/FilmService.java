@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ public class FilmService {
     private final UserService userService;
 
     @Autowired
-    public FilmService(InMemoryFilmStorage filmStorage, UserService userService) {
+    public FilmService(FilmStorage filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
         this.userService = userService;
     }
@@ -61,11 +60,10 @@ public class FilmService {
 
     public List<Film> getBestFilms(int size) {
         List<Film> Films = filmStorage.getBestFilms();
-        List<Film> bestFilms = Films.stream()
-                .sorted((p0, p1) -> compare(p0, p1))
+        return Films.stream()
+                .sorted(this::compare)
                 .limit(size)
                 .collect(Collectors.toList());
-        return bestFilms;
     }
 
     private int compare(Film p0, Film p1) {
